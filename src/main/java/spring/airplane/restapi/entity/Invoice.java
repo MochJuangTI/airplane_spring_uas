@@ -33,7 +33,7 @@ public class Invoice {
     @OneToOne(mappedBy = "invoice")
     private CreditHistory creditHistory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private Booking booking;
 

@@ -23,6 +23,18 @@ public class BookingService {
     private BookingRepository bookingRepository;
     private CreditRepository creditRepository;
     private InvoiceRepository invoiceRepository;
+    private CreditHistoryRepository creditHistoryRepository;
+    private BookingItemRepository bookingItemRepository;
+
+    @Autowired
+    public void setBookingItem(BookingItemRepository bookingItemRepository) {
+        this.bookingItemRepository = bookingItemRepository;
+    }
+
+    @Autowired
+    public void setCreditHistoryRepository(CreditHistoryRepository creditHistoryRepository) {
+        this.creditHistoryRepository = creditHistoryRepository;
+    }
 
     @Autowired
     public void setInvoiceRepository(InvoiceRepository invoiceRepository) {
@@ -81,6 +93,7 @@ public class BookingService {
         System.out.println(request.date);
         LocalDate date = LocalDate.parse(request.date);
         booking.setDate(date);
+        bookingRepository.save(booking);
 
         List<BookingItem> bookingItems = new ArrayList<>();
 
@@ -89,28 +102,38 @@ public class BookingService {
             BookingItem bookingItem = new BookingItem();
             bookingItem.setSeat(seatNumber);
             bookingItem.setTotalPrice(destination.getPrice());
+            bookingItem.setBooking(booking);
+            bookingItemRepository.save(bookingItem);
+
             bookingItems.add(bookingItem);
         }
-        booking.setBookingBookingItems(bookingItems);
 
         // TODO: create invoice
         Invoice invoice = new Invoice();
         invoice.setIsPaid(false);
         invoice.setTotalPayments(totalPrice);
         invoice.setTotalVat(destination.getVat() * request.getSeat().size());
+        invoiceRepository.save(invoice);
+
+
         // TODO: create credit history
         CreditHistory creditHistory = new CreditHistory();
         creditHistory.setCredit(credit);
         creditHistory.setTotalPrice(totalPrice);
+        creditHistory.setInvoice(invoice);
+        creditHistoryRepository.save(creditHistory);
 
-        invoice.setCreditHistory(creditHistory);
-        booking.setInvoice(invoice);
 
         // TODO: decrease balance
         credit.setBalance( credit.getBalance() - totalPrice );
         creditRepository.save(credit);
-        System.out.println(booking);
-        bookingRepository.save(booking);
+
+        // fill booking
+        booking.setBookingBookingItems(bookingItems);
+        invoice.setCreditHistory(creditHistory);
+        booking.setInvoice(invoice);
+        booking.setDestination(destination);
+
         return booking;
     }
 

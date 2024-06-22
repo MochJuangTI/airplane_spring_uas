@@ -37,7 +37,7 @@ public class Booking {
     @OneToMany(mappedBy = "booking")
     private List<BookingItem> bookingBookingItems;
 
-    @OneToOne
+    @OneToOne(mappedBy = "booking")
     private Invoice invoice;
 
 }
