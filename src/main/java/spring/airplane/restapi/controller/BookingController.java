@@ -36,7 +36,6 @@ public class BookingController {
         return WebResponse.<BookingResponse>builder().data(booking).build();
     }
 
-    // Endpoint to get all bookings by customer ID
     @GetMapping(
             path = "/customer/{customerId}",
             produces = MediaType.APPLICATION_JSON_VALUE

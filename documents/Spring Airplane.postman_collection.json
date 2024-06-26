@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "8db6d23b-4635-4536-8f6c-dffc44335364",
+		"name": "Spring Airplane",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7914152"
+	},
+	"item": [
+		{
+			"name": "Destination",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{springUrl}}/destination",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"destination"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springUrl}}/destination/1",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"destination",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{springUrl}}/destination/5",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"destination",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\" :  \"Beach Karang Hawu Sukabumi\",\n  \"description\" : \"Pantai\",\n  \"price\" :  15000.0,\n  \"country_id\" : 1,\n  \"photos\" :  \"a.jpg\",\n  \"insurance\" : true,\n  \"refundable\" : true,\n  \"vat\" : 2.4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springUrl}}/destination",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"destination"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\" :  \"Beach Palabuhan Ratu Timur\",\n  \"description\" : \"Pantai\",\n  \"price\" :  15000.0,\n  \"country_id\" : 1,\n  \"photos\" :  \"a.jpg\",\n  \"insurance\" : true,\n  \"refundable\" : true,\n  \"vat\" : 2.4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springUrl}}/destination/1",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"destination",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"mochjuangpp@gmail.com\",\n    \"password\" : \"customer123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springUrl}}/customer/login",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"customer",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"mochjuangpp@nusaputra.ac.id\",\n    \"fullname\" : \"mochjuang\",\n    \"hobby\" : \"programming\",\n    \"password\" : \"customer123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springUrl}}/customer/register",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"customer",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"destination_id\" : 4,\n    \"date\" : \"2024-06-22\",\n    \"customer_id\" : 1,\n    \"seats\" : [5]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springUrl}}/booking",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Available Seat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"destination_id\" : 4,\n    \"date\": \"2024-06-22\" \n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springUrl}}/booking/seat",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"booking",
+								"seat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{springUrl}}/booking/12/pay",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"booking",
+								"12",
+								"pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Booking By CustomerId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springUrl}}/booking/customer/1",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"booking",
+								"customer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking By id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springUrl}}/booking/10",
+							"host": [
+								"{{springUrl}}"
+							],
+							"path": [
+								"booking",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

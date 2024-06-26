@@ -1,0 +1,117 @@
+### Destination Requests
+
+# Get All Destinations
+GET http://localhost:8080/destination
+Content-Type: application/json
+
+###
+
+# Get One Destination
+GET http://localhost:8080/destination/1
+Content-Type: application/json
+
+###
+
+# Delete Destination
+DELETE http://localhost:8080/destination/5
+Content-Type: application/json
+
+###
+
+# Create Destination
+PUT http://localhost:8080/destination
+Content-Type: application/json
+
+{
+  "name": "Beach Karang Hawu Sukabumi",
+  "description": "Pantai",
+  "price": 15000.0,
+  "country_id": 1,
+  "photos": "a.jpg",
+  "insurance": true,
+  "refundable": true,
+  "vat": 2.4
+}
+
+###
+
+# Update Destination
+PATCH http://localhost:8080/destination/1
+Content-Type: application/json
+
+{
+  "name": "Beach Palabuhan Ratu Timur",
+  "description": "Pantai",
+  "price": 15000.0,
+  "country_id": 1,
+  "photos": "a.jpg",
+  "insurance": true,
+  "refundable": true,
+  "vat": 2.4
+}
+
+### Customer Requests
+
+# Register Customer
+PUT http://localhost:8080/customer/register
+Content-Type: application/json
+
+{
+  "email": "mochjuangpp@nusaputra.ac.id",
+  "fullname": "mochjuang",
+  "hobby": "programming",
+  "password": "customer123"
+}
+
+###
+
+# Login Customer
+POST http://localhost:8080/customer/login
+Content-Type: application/json
+
+{
+  "email": "mochjuangpp@gmail.com",
+  "password": "customer123"
+}
+
+### Booking Requests
+
+# Create Booking
+PUT http://localhost:8080/booking
+Content-Type: application/json
+
+{
+  "destination_id": 4,
+  "date": "2024-06-22",
+  "customer_id": 1,
+  "seats": [5]
+}
+
+###
+
+# Check Available Seat
+POST http://localhost:8080/booking/seat
+Content-Type: application/json
+
+{
+  "destination_id": 4,
+  "date": "2024-06-22"
+}
+
+###
+
+# Pay Booking
+POST http://localhost:8080/booking/12/pay
+Content-Type: application/json
+
+###
+
+# Get All Bookings By CustomerId
+GET http://localhost:8080/booking/customer/1
+Content-Type: application/json
+
+###
+
+# Get Booking By Id
+GET http://localhost:8080/booking/10
+Content-Type: application/json
