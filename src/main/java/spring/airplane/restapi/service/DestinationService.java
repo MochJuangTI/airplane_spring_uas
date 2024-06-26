@@ -1,113 +1,98 @@
 package spring.airplane.restapi.service;
 
 import jakarta.transaction.Transactional;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import spring.airplane.restapi.entity.Country;
-import spring.airplane.restapi.entity.Destination;
-import spring.airplane.restapi.model.CreateOrupdateDestinationRequest;
-import spring.airplane.restapi.repository.CountryRepository;
-import spring.airplane.restapi.repository.DestinationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import spring.airplane.restapi.entity.Country;
+import spring.airplane.restapi.entity.Destination;
+import spring.airplane.restapi.model.CreateOrUpdateDestinationRequest;
+import spring.airplane.restapi.model.DestinationResponse;
+import spring.airplane.restapi.repository.CountryRepository;
+import spring.airplane.restapi.repository.DestinationRepository;
+import spring.airplane.restapi.service.DTOConverter;
+import spring.airplane.restapi.service.ValidationService;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DestinationService {
 
-    @Getter
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
+    private final DestinationRepository destinationRepository;
+    private final ValidationService validationService;
+
     @Autowired
-    public void setCountryRepository(CountryRepository countryRepository) {
+    public DestinationService(CountryRepository countryRepository, DestinationRepository destinationRepository, ValidationService validationService) {
         this.countryRepository = countryRepository;
-    }
-
-    @Getter
-    private DestinationRepository destinationRepository;
-    @Autowired
-    public void setDestinationRepository(DestinationRepository destinationRepository) {
         this.destinationRepository = destinationRepository;
-    }
-
-    @Getter
-    private ValidationService validationService;
-    @Autowired
-    public void setValidationService(ValidationService validationService) {
         this.validationService = validationService;
     }
 
     @Transactional
-    public Destination create(CreateOrupdateDestinationRequest request) {
-        // TODO: validation
+    public DestinationResponse create(CreateOrUpdateDestinationRequest request) {
         validationService.validate(request);
 
-        // TODO: checking country exist
-        Country country = countryRepository.findById(request.country_id)
+        Country country = countryRepository.findById(request.getCountryId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country is not found"));
 
-        // TODO : store to db
         Destination destination = new Destination();
         destination.setCountry(country);
-        destination.setName(request.name);
-        destination.setDescription(request.description);
-        destination.setPrice(request.price);
-        destination.setPhotos(request.photos);
-        destination.setInsurance(request.insurance);
-        destination.setRefundable(request.refundable);
-        destination.setVat(request.vat);
+        destination.setName(request.getName());
+        destination.setDescription(request.getDescription());
+        destination.setPrice(request.getPrice());
+        destination.setPhotos(request.getPhotos());
+        destination.setInsurance(request.getInsurance());
+        destination.setRefundable(request.getRefundable());
+        destination.setVat(request.getVat());
         destinationRepository.save(destination);
 
-        return destination;
+        return DTOConverter.toDestinationResponse(destination);
     }
 
     @Transactional
-    public Destination update(Integer id ,CreateOrupdateDestinationRequest request) {
-        // TODO: validation
+    public DestinationResponse update(Integer id, CreateOrUpdateDestinationRequest request) {
         validationService.validate(request);
 
-        // TODO: checking country exist
-        Country country = countryRepository.findById(id)
+        Country country = countryRepository.findById(request.getCountryId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country is not found"));
 
-        // TODO : check destination exist
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination is not found"));
 
-        // TODO : update to db
         destination.setCountry(country);
-        destination.setName(request.name);
-        destination.setDescription(request.description);
-        destination.setPrice(request.price);
-        destination.setPhotos(request.photos);
-        destination.setInsurance(request.insurance);
-        destination.setRefundable(request.refundable);
-        destination.setVat(request.vat);
+        destination.setName(request.getName());
+        destination.setDescription(request.getDescription());
+        destination.setPrice(request.getPrice());
+        destination.setPhotos(request.getPhotos());
+        destination.setInsurance(request.getInsurance());
+        destination.setRefundable(request.getRefundable());
+        destination.setVat(request.getVat());
         destinationRepository.save(destination);
-        return destination;
+
+        return DTOConverter.toDestinationResponse(destination);
     }
 
-    public Destination get(Integer id) {
-        // TODO: get from db by id
+    public DestinationResponse get(Integer id) {
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination is not found"));
-        return destination;
+        return DTOConverter.toDestinationResponse(destination);
     }
 
-    public List<Destination> getAll() {
-        return destinationRepository.findAll();
+    public List<DestinationResponse> getAll() {
+        return destinationRepository.findAll().stream()
+                .map(DTOConverter::toDestinationResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public Destination delete(Integer id) {
-        // TODO: checking destination exist
+    public DestinationResponse delete(Integer id) {
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination is not found"));
 
-        // TODO: delete destination from db
         destinationRepository.delete(destination);
-        return destination;
+        return DTOConverter.toDestinationResponse(destination);
     }
 }

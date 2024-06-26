@@ -1,7 +1,5 @@
 package spring.airplane.restapi.model;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Seat {
-    @Min(1)
-    private Number no;
-    @NotBlank
-    private Boolean available ;
+public class BookingItemResponse {
+    private Integer id;
+    private Integer seat;
+    private Double totalPrice;
 }

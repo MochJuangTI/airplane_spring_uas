@@ -1,5 +1,6 @@
 package spring.airplane.restapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,10 +15,15 @@ import java.util.List;
 @Builder
 public class CreateBookingRequest {
     @Min(1)
-    public Integer destination_id;
+    @JsonProperty("destination_id")
+    private Integer destinationId;
+
     @Min(1)
-    public Integer customer_id;
+    @JsonProperty("customer_id")
+    private Integer customerId;
+
     @NotBlank
-    public String date;
-    public List<Integer> seat;
+    private String date;
+
+    private List<Integer> seats;
 }

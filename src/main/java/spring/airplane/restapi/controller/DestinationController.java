@@ -1,71 +1,67 @@
 package spring.airplane.restapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import spring.airplane.restapi.entity.Destination;
-import spring.airplane.restapi.model.CreateOrupdateDestinationRequest;
-import spring.airplane.restapi.model.WebResponse;
-import spring.airplane.restapi.service.DestinationService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import spring.airplane.restapi.model.CreateOrUpdateDestinationRequest;
+import spring.airplane.restapi.model.DestinationResponse;
+import spring.airplane.restapi.model.WebResponse;
+import spring.airplane.restapi.service.DestinationService;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/destination")
 public class DestinationController {
-    private DestinationService destinationService;
+    private final DestinationService destinationService;
 
     @Autowired
-    public void setDestinationService(DestinationService destinationService) {
+    public DestinationController(DestinationService destinationService) {
         this.destinationService = destinationService;
     }
 
     @PutMapping(
-            path = "/destination",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<Destination> create(@RequestBody CreateOrupdateDestinationRequest request) {
-        Destination destination = destinationService.create(request);
-        return WebResponse.<Destination>builder().data(destination).build();
+    public WebResponse<DestinationResponse> create(@RequestBody CreateOrUpdateDestinationRequest request) {
+        DestinationResponse destination = destinationService.create(request);
+        return WebResponse.<DestinationResponse>builder().data(destination).build();
     }
 
     @PatchMapping(
-            path = "/destination/{id}",
+            path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<Destination> update(@PathVariable("id") Integer id, @RequestBody CreateOrupdateDestinationRequest request) {
-        Destination destination = destinationService.update(id, request);
-        return WebResponse.<Destination>builder().data(destination).build();
+    public WebResponse<DestinationResponse> update(@PathVariable("id") Integer id, @RequestBody CreateOrUpdateDestinationRequest request) {
+        DestinationResponse destination = destinationService.update(id, request);
+        return WebResponse.<DestinationResponse>builder().data(destination).build();
     }
 
     @GetMapping(
-            path = "/destination/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<Destination> get(@PathVariable("id") Integer id) {
-        Destination destination = destinationService.get(id);
-        return WebResponse.<Destination>builder().data(destination).build();
+    public WebResponse<DestinationResponse> get(@PathVariable("id") Integer id) {
+        DestinationResponse destination = destinationService.get(id);
+        return WebResponse.<DestinationResponse>builder().data(destination).build();
     }
 
     @GetMapping(
-            path = "/destination",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<List<Destination>> GetListDestination() {
-        List<Destination> destinations = destinationService.getAll();
-        return WebResponse.<List<Destination>>builder().data(destinations).build();
+    public WebResponse<List<DestinationResponse>> getAll() {
+        List<DestinationResponse> destinations = destinationService.getAll();
+        return WebResponse.<List<DestinationResponse>>builder().data(destinations).build();
     }
 
     @DeleteMapping(
-            path = "/destination/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<Destination> delete(@PathVariable("id") Integer id) {
-        Destination destination = destinationService.delete(id);
-        return WebResponse.<Destination>builder().data(destination).build();
+    public WebResponse<DestinationResponse> delete(@PathVariable("id") Integer id) {
+        DestinationResponse destination = destinationService.delete(id);
+        return WebResponse.<DestinationResponse>builder().data(destination).build();
     }
 }
